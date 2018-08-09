@@ -54,11 +54,12 @@ func getListTodo(collection *mgo.Collection) func(w http.ResponseWriter, r *http
 		docs := make([]struct {
 			Path   string `bson:"path" json:"evidencePath"`
 			Output string `json:"outputPath"`
+			Profile   string `bson:"profile"`
 		}, 0)
 
 		err := collection.Find(
 			bson.M{"state": "todo"},
-		).Limit(100).Select(bson.M{"path": 1}).All(&docs)
+		).Limit(100).Select(bson.M{"path": 1, "profile": 1}).All(&docs)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			fmt.Fprintf(w, "error fetching database: %v\n", err)
