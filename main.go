@@ -65,11 +65,13 @@ func getListTodo(collection *mgo.Collection) func(w http.ResponseWriter, r *http
 			fmt.Fprintf(w, "error fetching database: %v\n", err)
 			return
 		}
-
+		
 		for i := 0; i < len(docs); i++ {
-			docs[i].Output = path.Join(path.Dir(docs[i].Path), "SARD")
-			fmt.Print("%v todo doc found: %v\n", i, docs[i].Path)
+			docs[i].Output = path.Join(path.Dir(docs[i].Path), "SARD")		
 		}
+		
+		fmt.Printf("docs found: %+v\n", docs)
+		
 
 		docsJSON, err := json.Marshal(docs)
 		if err != nil {
