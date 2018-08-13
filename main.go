@@ -53,8 +53,8 @@ func getListTodo(collection *mgo.Collection) func(w http.ResponseWriter, r *http
 	return func(w http.ResponseWriter, r *http.Request) {
 		docs := make([]struct {
 			Path   string `bson:"path" json:"evidencePath"`
-			Output string `json:"outputPath"`
 			Profile   string `bson:"profile"`
+			Output string `json:"outputPath"`			
 		}, 0)
 
 		err := collection.Find(
@@ -68,6 +68,7 @@ func getListTodo(collection *mgo.Collection) func(w http.ResponseWriter, r *http
 
 		for i := 0; i < len(docs); i++ {
 			docs[i].Output = path.Join(path.Dir(docs[i].Path), "SARD")
+			fmt.Print("%v todo doc found: %v\n", i, docs[i].Path)
 		}
 
 		docsJSON, err := json.Marshal(docs)
